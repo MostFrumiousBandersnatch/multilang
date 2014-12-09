@@ -23,7 +23,7 @@
         </script>
         <style>
             .lang_switcher>span.current {font-weight: bold;}
-            .lang_switcher>span:nth-child(even)::before {content: " | ";}
+            .lang_switcher>span:nth-child(n+2)::before{content: " | ";}
         </style>
     </head>
     <body>
@@ -39,11 +39,12 @@
     Ivan Kondratyev <ivanbright@gmail.com>  2013
  */
 
+/*global angular*/
 (function (angular) {
     "use strict";
 
     angular.module('multilang', []).directive('translate', function () {
-        return function (scope, element, attrs) {
+        return function (scope, element) {
             var dict = {};
 
             Array.prototype.forEach.call(element.children(), function (lang_node) {
@@ -51,7 +52,7 @@
                 angular.element(lang_node).remove();
             });
 
-            scope.$watch('lang', function (value) {
+            scope.$root.$watch('lang', function (value) {
                 if (dict.hasOwnProperty(value)) {
                     element.text(dict[value]);
                 }
@@ -59,38 +60,35 @@
 
             element.removeAttr('translate');
         };
-    }).directive('langswitcher', function ($location) {
-        function switch_to(lang, scope) {
-            scope.lang = lang;
-        }
-
+    }).directive('langswitcher', ['$location', function ($location) {
         return {
             restrict: 'E',
             replace: true,
-            template: '<span class="lang_switcher"></span>',
+            scope: true,
+            template: [
+                '<span class="lang_switcher">',
+                '    <span class="{{current_lang == lang && \'current\' || \'\'}}" ng-click="switch_to(lang)" ng-repeat="lang in langs">{{lang}}</span>',
+                '</span>'
+            ].join(''),
 
-            link: function (scope, element, attrs, ctrl) {
-                var langs = attrs.langs.split(/\s?\,\s?/),
-                    spans = {},
-                    root_scope = scope.$root;
+            link: function (scope, element, attrs) {
+                var root_scope = scope.$root;
 
-                element.children().remove();
+                scope.langs = attrs.langs.split(/\s?\,\s?/);
 
-                langs.forEach(function (lang) {
-                    spans[lang] = angular.element('<span>' + lang + '</span>').bind('click', root_scope.$apply.bind(root_scope, switch_to.bind(null, lang)));
-                    element.append(spans[lang]);
-                });
+                scope.switch_to = function (lang) {
+                    root_scope.lang = lang;
+                };
 
                 root_scope.$watch('lang', function (value) {
-                    element.children().removeClass('current');
-                    spans[value].addClass('current');
+                    scope.current_lang = value;
                     $location.hash(value);
                 });
 
                 element.removeAttr('langs');
             }
         };
-    }).factory('i18lise', function ($location) {
+    }]).factory('i18lise', ['$location', function ($location) {
         return function (scope, def_lang) {
             var hash_val = $location.hash();
 
@@ -104,5 +102,6 @@
                 scope.$root.lang = def_lang;
             }
         };
-    });
+    }]);
 }(angular));
+
