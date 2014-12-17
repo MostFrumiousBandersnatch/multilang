@@ -1,0 +1,24 @@
+{
+  "name": "multilang",
+  "main": "multilang.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/MostFrumiousBandersnatch/multilang",
+  "description": "A small tool, based on AngularJS, allowing to easily create multilingual HTML pages.",
+  "moduleType": [
+    "amd"
+  ],
+  "dependencies": {
+    "angular": ">=1.0"
+  },
+  "keywords": [
+    "angularjs",
+    "i18n",
+    "internationalisation",
+    "multilingual"
+  ],
+  "authors": [
+    "Ivan Kondratyev <ivanbright@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": ["README.md"]
+}
