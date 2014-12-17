@@ -4,22 +4,14 @@
     Example of usage:
 
 <!doctype html>
-<html ng-app="main" ng-controller="RootController" lang="{{lang}}">
+<html ng-app="main" lang="{{lang}}" multilang="ru, en" deflang="en">
     <head>
         <title ng-bind="_({ru: 'По-русски', en: 'In english'})"></title>
         <meta charset="utf-8">
-        <script type="text/javascript" src="js/lib/angular-1.0.1.min.js"></script>
+        <script type="text/javascript" src="js/lib/angular.min.js"></script>
         <script type="text/javascript" src="js/multilang.js"></script>
         <script type="text/javascript">
-            angular.module(
-                'main',
-                ['multilang']
-            ).controller(
-                'RootController',
-                function  ($scope, i18lise) {
-                    i18lise($scope, 'en')
-                }
-            )
+            angular.module('main', ['multilang']);
         </script>
         <style>
             .lang_switcher>span.current {font-weight: bold;}
@@ -27,7 +19,7 @@
         </style>
     </head>
     <body>
-        <langswitcher langs="ru, en"></langswitcher>
+        <langswitcher></langswitcher>
         <hr/>
         <p translate>
             <span lang="en">Hello World!</span>
@@ -36,7 +28,7 @@
     </body>
 </html>
 
-    Ivan Kondratyev <ivanbright@gmail.com>  2013
+    Ivan Kondratyev <ivanbright@gmail.com>  2014
  */
 
 /*global angular*/
@@ -47,7 +39,7 @@
         return function (scope, element) {
             var dict = {};
 
-            Array.prototype.forEach.call(element.children(), function (lang_node) {
+            angular.forEach(element.children(), function (lang_node) {
                 dict[lang_node.getAttribute('lang').toLowerCase()] = lang_node.textContent;
                 angular.element(lang_node).remove();
             });
@@ -60,7 +52,7 @@
 
             element.removeAttr('translate');
         };
-    }).directive('langswitcher', ['$location', function ($location) {
+    }).directive('langswitcher', function () {
         return {
             restrict: 'E',
             replace: true,
@@ -71,10 +63,8 @@
                 '</span>'
             ].join(''),
 
-            link: function (scope, element, attrs) {
+            link: function (scope) {
                 var root_scope = scope.$root;
-
-                scope.langs = attrs.langs.split(/\s?\,\s?/);
 
                 scope.switch_to = function (lang) {
                     root_scope.lang = lang;
@@ -82,24 +72,43 @@
 
                 root_scope.$watch('lang', function (value) {
                     scope.current_lang = value;
-                    $location.hash(value);
                 });
-
-                element.removeAttr('langs');
             }
         };
-    }]).factory('i18lise', ['$location', function ($location) {
-        return function (scope, def_lang) {
+    }).factory('i18lise', ['$location', function ($location) {
+        return function (scope, langs, def_lang) {
             var hash_val = $location.hash();
 
+            if (langs.length === 0) {
+                throw new Error('You should specify at least one language.');
+            }
+
+            scope.langs = langs;
             scope._ = function (dict) {
                 return dict[scope.lang];
             };
 
             if (hash_val) {
-                scope.$root.lang = hash_val;
+                scope.lang = hash_val;
             } else if (def_lang) {
-                scope.$root.lang = def_lang;
+                scope.lang = def_lang;
+            } else {
+                scope.lang = langs[0];
+            }
+
+            scope.$watch('lang', function (value) {
+                $location.hash(value);
+            });
+        };
+    }]).directive('multilang', ['i18lise', function (i18lise) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                i18lise(
+                    scope.$root,
+                    (attrs.multilang || '').split(/\s?\,\s?/),
+                    attrs.deflang
+                );
             }
         };
     }]);
