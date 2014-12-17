@@ -2,6 +2,11 @@ multilaNG
 =========
 multilaNG is a AngularJS module, allowing you to create HTML pages with internalization support easily.
 
+#Installation
+Via bower:
+```
+bower install angular-multilang
+```
 
 #Usage
 1. Bootstrap your application
