@@ -2,6 +2,11 @@ multilaNG
 =========
 multilaNG is a AngularJS module, allowing you to create HTML pages with internalization support easily.
 
+#Features
+* Ability to create few independently internationalized scopes in one app.
+* Integrtion with native directives like ng-repeat.
+* Built-in language switcher.
+
 #Installation
 Via bower:
 ```
@@ -16,15 +21,18 @@ There are two options:
 * You can either inject the function i18lise into your controller and invoke it passing three parameters:
     - scope object,
     - list of available languages,
-    - default language (optional, if not provided, first of the available ones will be used).
+    - default language (optional, if not provided, first of the available ones will be used),
+    - boolean flag intended to indicate whether selected language must be reflected in location's hash or not.
+Note, that two or more globally i18lised controllers on one page do not make any sense.
 
 ```javascript
 function YourControllerFunction($scope, i18lise) {
-    i18lise($scope, ['fr', 'en'], 'en')
+    i18lise($scope, ['fr', 'en'], 'en', true)
 }
 ```
 * Or you may simply attach **multilang** attribute to the root node of your app. Value of the attribute should contains
-available languages, separated by comma. You can also specify default language by the mean of **deflang** attribute on the very same node.
+available languages, separated by comma. You can also specify default language by the mean of **deflang** attribute,
+and the global flag by the mean of **global** on the very same node.
 
 ```html
 <html ng-app="main" lang="{{lang}}" multilang="fr, en" deflang="en">
@@ -60,4 +68,5 @@ For every sentence or phrase you want to be available in different languages, yo
 ```
 This widget looks like a set of a links (separated by a tube character, for instance).
 Click on each of them invokes setting the corresponding language as current for the root scope of your controller.
-
+You can allocate as many switchers for one i18lised scope, as you want to.
+All of them will behave without contradiction with another ones.
