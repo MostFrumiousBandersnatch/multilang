@@ -4,7 +4,7 @@
     Example of usage:
 
 <!doctype html>
-<html ng-app="main" lang="{{lang}}" multilang="ru, en" deflang="en" global>
+<html ng-app="main" lang="{{current_lang}}" multilang="ru, en" deflang="en" global>
     <head>
         <title ng-bind="_({ru: 'По-русски', en: 'In english'})"></title>
         <meta charset="utf-8">
@@ -80,7 +80,7 @@
 
             if (scope.i18lised) {
                 //Since nested i18n does not make sense,
-                //skip processing in such a case
+                //skip processing in such a case.
                 return;
             }
 

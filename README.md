@@ -23,7 +23,7 @@ There are two options:
     - list of available languages,
     - default language (optional, if not provided, first of the available ones will be used),
     - boolean flag intended to indicate whether selected language must be reflected in location's hash or not.
-Note, that two or more globally i18lised controllers on one page do not make any sense.
+Note, that two or more globally i18lised scopes on one page do not make any sense.
 
 ```javascript
 function YourControllerFunction($scope, i18lise) {
@@ -35,7 +35,7 @@ available languages, separated by comma. You can also specify default language b
 and the global flag by the mean of **global** on the very same node.
 
 ```html
-<html ng-app="main" lang="{{lang}}" multilang="fr, en" deflang="en">
+<html ng-app="main" lang="{{current_lang}}" multilang="fr, en" deflang="en" global>
 </html>
 ```
 
@@ -43,6 +43,7 @@ In both cases do not forget to inject multilaNG into your application:
 ```javascript
 angular.module('main', ['multilang']);
 ```
+Selected language is accessible through property of the i18nalised scope named  **current_lang**.
 
 2. Specify the multi-language content
 -------------------------------------
@@ -56,6 +57,7 @@ For every sentence or phrase you want to be available in different languages, yo
 </span>
 ```
  - using special function called **_** ( this approach is suitable for attribute values but works with the text nodes as well).
+This function is available in every i18lised scope.
 
 ```html
 <img alt="{{ _({fr: 'Bon jour!', en: 'Hello!'}) }}"/>
