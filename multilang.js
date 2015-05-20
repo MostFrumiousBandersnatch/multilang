@@ -102,6 +102,8 @@
             }
 
             scope.$on('switch_lang', function (event, value) {
+                event.stopPropagation();
+
                 if (global) {
                     $location.hash(value);
                 }
