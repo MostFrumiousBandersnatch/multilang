@@ -10,6 +10,10 @@
   "dependencies": {
     "angular": ">=1.0"
   },
+  "devDependencies": {
+    "jasmine": "~2.0",
+     "angular-mocks": "~1.2.0"
+  },
   "keywords": [
     "angularjs",
     "i18n",

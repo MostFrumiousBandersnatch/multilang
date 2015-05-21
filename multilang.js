@@ -88,12 +88,16 @@
                 throw new Error('You should specify at least one language.');
             }
 
+            if (def_lang && langs.indexOf(def_lang) === -1) {
+                throw new Error('Default language should be one of avaliables ones.');
+            }
+
             scope.langs = langs;
             scope._ = function (dict) {
                 return dict[scope.current_lang];
             };
 
-            if (hash_val) {
+            if (global && hash_val) {
                 initial_lang = hash_val;
             } else if (def_lang) {
                 initial_lang = def_lang;
@@ -103,6 +107,10 @@
 
             scope.$on('switch_lang', function (event, value) {
                 event.stopPropagation();
+
+                if (scope.langs.indexOf(value) === -1) {
+                    throw new Error(value + ' is not supported.');
+                }
 
                 if (global) {
                     $location.hash(value);
