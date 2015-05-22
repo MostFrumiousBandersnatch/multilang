@@ -27,7 +27,7 @@ Note, that two or more globally i18lised scopes on one page do not make any sens
 
 ```javascript
 function YourControllerFunction($scope, i18lise) {
-    i18lise($scope, ['fr', 'en'], 'en', true)
+    i18lise($scope, ['fr', 'en'], 'en', true);
 }
 ```
 * Or you may simply attach **multilang** attribute to the root node of your app. Value of the attribute should contains
