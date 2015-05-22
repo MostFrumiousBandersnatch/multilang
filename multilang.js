@@ -29,7 +29,7 @@
     </body>
 </html>
 
-    Ivan Kondratyev <ivanbright@gmail.com>  2014
+    Ivan Kondratyev <ivanbright@gmail.com>  2015
  */
 
 /*global angular*/
@@ -84,8 +84,8 @@
                 return;
             }
 
-            if (langs.length === 0) {
-                throw new Error('You should specify at least one language.');
+            if (!angular.isArray(langs) || langs.length < 2) {
+                throw new Error('You should specify at least two languages.');
             }
 
             if (def_lang && langs.indexOf(def_lang) === -1) {

@@ -13,7 +13,7 @@ describe("Basic multilang test suite", function() {
 
         beforeEach(inject(function (i18lise) {
             i18liseFactory = i18lise;
-        }))
+        }));
 
         it('should exists',
             function () {
@@ -25,8 +25,10 @@ describe("Basic multilang test suite", function() {
             inject(function ($rootScope) {
                 var s = $rootScope.$new();
 
-                i18liseFactory(s, ['en', 'fr'], 'en');
-                expect(s.i18lised).toBe(true);
+                i18liseFactory(s, ['en', 'fr']);
+
+                expect(s.i18lised).toBeTruthy();
+                expect(s.langs).toEqual(['en', 'fr']);
             })
         );
 
@@ -35,6 +37,7 @@ describe("Basic multilang test suite", function() {
                 var s = $rootScope.$new();
 
                 expect(i18liseFactory, s, []).toThrowError(Error);
+                expect(i18liseFactory, s, ['en']).toThrowError(Error);
             })
         );
 
@@ -93,7 +96,7 @@ describe("Basic multilang test suite", function() {
                 i18liseFactory(s, ['ru', 'se']);
                 i18liseFactory(s, ['en', 'fr']);
 
-                expect(s.current_lang).toBe('ru');
+                expect(s.langs).toEqual(['ru', 'se']);
             })
         );
 
@@ -133,5 +136,26 @@ describe("Basic multilang test suite", function() {
                 expect(s._(dict)).toBe('Bon jour!');
             })
         );
+    });
+
+    describe('html compilation', function () {
+        it('got to perform', function () {
+            var e = angular.element([
+                '<h1 multilang="ru, en" translate>',
+                    '<span lang="en">Hello World!</span>',
+                    '<span lang="ru">Всем привет!</span>',
+                '</h1>',
+            ].join('')), s;
+
+            angular.bootstrap(e, ['multilang']);
+            s = e.scope();
+
+            expect(e.text()).toBe('Всем привет!');
+
+            s.$emit('switch_lang', 'en');
+            s.$digest();
+            expect(e.text()).toBe('Hello World!');
+        });
+
     });
 });
