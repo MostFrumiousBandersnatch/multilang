@@ -138,8 +138,30 @@ describe("Basic multilang test suite", function() {
         );
     });
 
-    describe('html compilation', function () {
-        it('got to perform', function () {
+    describe('translate', function () {
+        it('got to watch the scope', function () {
+            var e = angular.element([
+                '<h1 translate>',
+                    '<span lang="en">Hello World!</span>',
+                    '<span lang="ru">Всем привет!</span>',
+                '</h1>',
+            ].join('')), s;
+
+            angular.bootstrap(e, ['multilang']);
+            s = e.scope();
+
+            s.$apply(function (scope) {
+                scope.current_lang = 'ru';
+            });
+            expect(e.text()).toBe('Всем привет!');
+
+            s.$apply(function (scope) {
+                scope.current_lang = 'en';
+            });
+            expect(e.text()).toBe('Hello World!');
+        });
+
+        it('got to perform in conjunction with multilang', function () {
             var e = angular.element([
                 '<h1 multilang="ru, en" translate>',
                     '<span lang="en">Hello World!</span>',

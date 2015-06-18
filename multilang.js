@@ -36,7 +36,28 @@
 (function (angular) {
     "use strict";
 
-    angular.module('multilang', []).directive('translate', ['$interpolate', function ($interpolate) {
+    angular.module(
+        'multilang', []
+    /**
+     * @ngdoc directive
+     * @name translate
+     * @module multilang
+     * @restrict E
+     *
+     * @description
+     * Defines an atomic multilingual block. Must contains particular translation
+     * in nested tags (tag name does not matter) with langauge code specified in lang
+     * attribute.
+     *
+     * @example
+     * ```
+     * <p translate>
+     *      <span lang="en">Hello World!</span>
+     *      <span lang="ru">Всем привет!</span>
+     * </p>
+     * ```
+     */
+    ).directive('translate', ['$interpolate', function ($interpolate) {
         return {
             terminal: true,
             compile: function compile_translator(element) {
@@ -74,6 +95,18 @@
                 };
             }
         };
+    /**
+     * @ngdoc function
+     * @name i18lise
+     * @module multilang
+     * @kind function
+     *
+     * @description
+     * Invokes i18n for the scope.
+     * @param {$rootScope.Scope} scope - scope to wrap.
+     * @param {Array} langs - list of language codes to operate with.
+     * @param {String} [def_lang] - language code for initial setup.
+     */
     }).factory('i18lise', ['$location', function ($location) {
         return function (scope, langs, def_lang, global) {
             var hash_val = $location.hash(), initial_lang;
@@ -121,6 +154,36 @@
             scope.current_lang = initial_lang;
             scope.i18lised = true;
         };
+    /**
+     * @ngdoc directive
+     * @name multilang
+     * @module multilang
+     * @restrict A
+     * @element ANY
+     *
+     * @description
+     * Basically, a wrapper for {@link i18lise `i18lise`} Assuming a value
+     * containing comma-separated list of language codes.
+     * Also pays attention for optional attributes deflang and global,
+     * strictly correponds to the paranters of {@link i18lise `i18lise`}.
+     *
+     * @example
+        <example module="multilangExample"  animations="false">
+           <file name="index.html">
+                <div multilang="ru, en">
+                    <langswitcher></langswitcher>
+                    <hr/>
+                    <p translate>
+                        <span lang="en">Hello World!</span>
+                        <span lang="ru">Всем привет!</span>
+                    </p>
+                </div>
+            </file>
+             <file name="script.js">
+                angular.module('multilangExample', ['multilang']);
+            </file>
+        </example>
+     */
     }]).directive('multilang', ['i18lise', function (i18lise) {
         return {
             restrict: 'A',
