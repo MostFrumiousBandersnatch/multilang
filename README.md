@@ -30,7 +30,7 @@ function YourControllerFunction($scope, i18lise) {
     i18lise($scope, ['fr', 'en'], 'en', true);
 }
 ```
-* Or you may simply attach **multilang** attribute to the root node of your app. Value of the attribute should contains
+* Or you can simply attach **multilang** attribute to the root node of your app. Value of the attribute should contains
 available languages, separated by comma. You can also specify default language by the mean of **deflang** attribute,
 and the global flag by the mean of **global** on the very same node.
 
