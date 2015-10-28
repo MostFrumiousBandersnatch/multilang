@@ -1,0 +1,35 @@
+{
+  "name": "multilang-git",
+  "version": "0.1.1",
+  "description": "multilaNG is a AngularJS module, allowing you to create HTML pages with internalization support easily. ",
+  "main": "multilang.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine": "^2.3.2",
+    "karma": "^0.13.14",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-jasmine": "^0.3.6"
+  },
+  "scripts": {
+    "test": "karma start test/karma.conf.js --single-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MostFrumiousBandersnatch/multilang.git"
+  },
+  "keywords": [
+    "angularjs",
+    "i18n",
+    "internalisation",
+    "multilingual"
+  ],
+  "author": "Ivan Kondratyev <ivanbright@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MostFrumiousBandersnatch/multilang/issues"
+  },
+  "homepage": "https://github.com/MostFrumiousBandersnatch/multilang#readme"
+}

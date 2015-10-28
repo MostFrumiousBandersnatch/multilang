@@ -1,7 +1,7 @@
 {
   "name": "multilang",
   "main": "multilang.js",
-  "version": "0.0.2",
+  "version": "0.1.1",
   "homepage": "https://github.com/MostFrumiousBandersnatch/multilang",
   "description": "A small tool, based on AngularJS, allowing to easily create multilingual HTML pages.",
   "moduleType": [
