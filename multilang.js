@@ -122,7 +122,7 @@
             }
 
             if (def_lang && langs.indexOf(def_lang) === -1) {
-                throw new Error('Default language should be one of avaliables ones.');
+                throw new Error('Default language should be one of avaliable ones.');
             }
 
             scope.langs = langs;
