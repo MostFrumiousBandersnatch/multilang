@@ -34,10 +34,20 @@ describe("Basic multilang test suite", function() {
 
         it('should not allow empty lists',
             inject(function ($rootScope) {
-                var s = $rootScope.$new();
+                var s = $rootScope.$new(),
+                    err_msg = 'You should specify at least two languages.';
 
-                expect(i18liseFactory, s, []).toThrowError(Error);
-                expect(i18liseFactory, s, ['en']).toThrowError(Error);
+                expect(
+                    i18liseFactory.bind(null, s, [])
+                ).toThrowError(
+                    Error, err_msg
+                );
+
+                expect(
+                    i18liseFactory.bind(null, s, ['en'])
+                ).toThrowError(
+                    Error, err_msg
+                );
             })
         );
 
@@ -46,8 +56,11 @@ describe("Basic multilang test suite", function() {
                 var s = $rootScope.$new();
 
                 expect(
-                    i18liseFactory, s, ['en', 'fr'], 'ru'
-                ).toThrowError(Error);
+                    i18liseFactory.bind(null, s, ['en', 'fr'], 'ru')
+                ).toThrowError(
+                    Error,
+                    'Default language should be one of avaliable ones.'
+                );
             })
         );
 
@@ -118,8 +131,10 @@ describe("Basic multilang test suite", function() {
 
                 i18liseFactory(s, ['en', 'ru']);
                 expect(
-                    i18liseFactory, s.$emit, 'switch_lang', 'fr'
-                ).toThrowError(Error);
+                     s.$emit.bind(s, 'switch_lang', 'fr')
+                ).toThrowError(
+                    Error, 'fr is not supported.'
+                );
             })
         );
 
