@@ -1,6 +1,7 @@
 multilaNG
 =========
 [![Build Status](https://travis-ci.org/MostFrumiousBandersnatch/multilang.svg?branch=master)](https://travis-ci.org/MostFrumiousBandersnatch/multilang)
+[![codecov.io](https://codecov.io/github/MostFrumiousBandersnatch/multilang/coverage.svg?branch=master)](https://codecov.io/github/MostFrumiousBandersnatch/multilang)
 
 multilaNG is a AngularJS module, allowing you to create HTML pages with internalization support easily.
 
