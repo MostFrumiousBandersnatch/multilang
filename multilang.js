@@ -32,7 +32,6 @@
     Ivan Kondratyev <ivanbright@gmail.com>  2015
  */
 
-/*global angular*/
 (function (angular) {
     "use strict";
 
@@ -63,7 +62,7 @@
             compile: function compile_translator(element) {
                 var dict = {};
 
-                angular.forEach(element.children(), function (lang_node) {
+                angular.forEach(element.children(), lang_node => {
                     dict[lang_node.getAttribute('lang').toLowerCase()] = $interpolate(lang_node.textContent);
                     angular.element(lang_node).remove();
                 });
@@ -89,10 +88,8 @@
                 '    <span class="{{current_lang == lang && \'current\' || \'\'}}" ng-click="switch_to(lang)" ng-repeat="lang in langs">{{lang}}</span>',
                 '</span>'
             ].join(''),
-            link: function (scope) {
-                scope.switch_to = function (lang) {
-                    scope.$emit('switch_lang', lang);
-                };
+            link: scope => {
+                scope.switch_to = lang => scope.$emit('switch_lang', lang);
             }
         };
     /**
@@ -108,7 +105,7 @@
      * @param {String} [def_lang] - language code for initial setup.
      */
     }).factory('i18lise', ['$location', function ($location) {
-        return function (scope, langs, def_lang, global) {
+        return function (scope, langs, def_lang, global=false) {
             var hash_val = $location.hash(), initial_lang;
 
             if (scope.i18lised) {
@@ -142,7 +139,7 @@
                 event.stopPropagation();
 
                 if (scope.langs.indexOf(value) === -1) {
-                    throw new Error(value + ' is not supported.');
+                    throw new Error(`${value} is not supported.`);
                 }
 
                 if (global) {

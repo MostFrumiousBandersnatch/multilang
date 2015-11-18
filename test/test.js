@@ -1,8 +1,8 @@
+/* jshint jasmine:true */
+/* jshint node:true */ 
+/* global inject, module */
 'use strict';
 
-/*global jasmine, describe, it, beforeEach, afterEach, module,
-    expect, inject
-*/
 describe("Basic multilang test suite", function() {
     beforeEach(function () {
         module('multilang');
@@ -77,7 +77,7 @@ describe("Basic multilang test suite", function() {
             inject(function ($rootScope, $location) {
                 var s = $rootScope.$new();
 
-                $location.hash('en')
+                $location.hash('en');
                 i18liseFactory(s, ['en', 'fr'], 'fr', true);
                 expect(s.current_lang).toBe('en');
             })
@@ -87,7 +87,7 @@ describe("Basic multilang test suite", function() {
             inject(function ($rootScope, $location) {
                 var s = $rootScope.$new();
 
-                $location.hash('en')
+                $location.hash('en');
                 i18liseFactory(s, ['en', 'fr'], 'fr', false);
                 expect(s.current_lang).toBe('fr');
             })

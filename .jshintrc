@@ -1,0 +1,9 @@
+{
+    "browser": true,
+    "undef": true,
+    "curly": true,
+    "esnext": true,
+    "globals": {
+        "angular": true
+    }
+}
