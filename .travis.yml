@@ -6,6 +6,8 @@ before_script:
     - sh -e /etc/init.d/xvfb start
     - npm install
     - bower install
+script:
+    - gulp travis_test
 after_success:
-    cat coverage/report-lcov/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js
+    - cat coverage/report-lcov/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js
 
