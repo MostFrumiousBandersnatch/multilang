@@ -36,7 +36,7 @@ gulp.task('travis_test', function (done) {
         configFile: __dirname + '/test/karma.conf.js',
         browsers: ['Firefox'],
         preprocessors: {
-            'multilang.js': 'babel'
+            'multilang.js': ['coverage', 'babel']
         },
         babelPreprocessor: {
             options: {
